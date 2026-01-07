@@ -1,0 +1,31 @@
+services:
+  api:
+    build: .
+    container_name: colabora-ai-backend
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=dev
+      - PORT=3000
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/colabora_ai
+      - JWT_SECRET=devsecret
+    depends_on:
+      - db
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+
+  db:
+    image: postgres:15-alpine
+    container_name: colabora-ai-db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=colabora_ai
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
