@@ -1,13 +1,20 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { GetPublicListUseCase } from '../../../use-cases/get-public-list'
+import { ListIdParams } from '../../../types/list-types'
 
-export async function getPublicList(request: FastifyRequest, reply: FastifyReply) {
-  const getPublicListParamsSchema = z.object({
-    listId: z.string().uuid(),
-  })
+interface GetPublicListRequest extends FastifyRequest {
+  params: {
+    listId: string
+  }
+}
 
-  const { listId } = getPublicListParamsSchema.parse(request.params)
+export async function getPublicList(
+  request: FastifyRequest<{
+    Params: ListIdParams
+  }>,
+  reply: FastifyReply,
+) {
+  const { listId } = request.params
 
   const getPublicListUseCase = new GetPublicListUseCase()
 

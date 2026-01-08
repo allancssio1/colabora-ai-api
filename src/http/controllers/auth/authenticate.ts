@@ -1,14 +1,16 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { AuthenticateUserUseCase } from '../../../use-cases/authenticate-user'
+import { AuthenticateBody } from '../../../types/user-types'
 
-export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
-  const authenticateBodySchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-  })
+export async function authenticate(
+  request: FastifyRequest<{
+    Body: AuthenticateBody
+  }>,
+  reply: FastifyReply,
+) {
+  const { email, password } = request.body
 
-  const { email, password } = authenticateBodySchema.parse(request.body)
+  console.log('🚀 ~ authenticate ~ email, password:', email, password)
 
   const authenticateUserUseCase = new AuthenticateUserUseCase()
 
@@ -25,7 +27,7 @@ export async function authenticate(request: FastifyRequest, reply: FastifyReply)
       sign: {
         expiresIn: '7d',
       },
-    }
+    },
   )
 
   return reply.status(200).send({

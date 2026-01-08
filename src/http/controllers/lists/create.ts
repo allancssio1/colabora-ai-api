@@ -1,25 +1,17 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { CreateListUseCase } from '../../../use-cases/create-list'
+import { CreateListBody } from '../../../types/list-types'
 
-export async function createList(request: FastifyRequest, reply: FastifyReply) {
-  const createListBodySchema = z.object({
-    location: z.string(),
-    event_date: z.coerce.date(),
-    items: z.array(
-      z.object({
-        item_name: z.string(),
-        quantity_total: z.number().positive(),
-        unit_type: z.string(),
-        quantity_per_portion: z.number().positive(),
-      })
-    ),
-  })
-
+export async function createList(
+  request: FastifyRequest<{
+    Body: CreateListBody
+  }>,
+  reply: FastifyReply,
+) {
   // Authenticated user
   const userId = request.user.sub
 
-  const { location, event_date, items } = createListBodySchema.parse(request.body)
+  const { location, event_date, items } = request.body
 
   const createListUseCase = new CreateListUseCase()
 

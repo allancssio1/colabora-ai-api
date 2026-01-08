@@ -1,0 +1,28 @@
+@base_url = http://localhost:3000
+@token = {{login.response.body.$.token}}
+
+
+###
+# @name login
+POST {{base_url}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "allan@gmail.com",
+  "password": "12345678"
+}
+###
+# @name create_user
+POST {{base_url}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Allan Càssio",
+  "email": "allan@gmail.com",
+  "password": "12345678"
+}
+
+###
+# @name get_lists
+GET {{base_url}}/lists
+Authorization: Bearer {{token}}

@@ -1,20 +1,16 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
 import { RegisterMemberUseCase } from '../../../use-cases/register-member'
+import { ListIdParams, RegisterMemberBody } from '../../../types/list-types'
 
-export async function registerMember(request: FastifyRequest, reply: FastifyReply) {
-  const registerMemberParamsSchema = z.object({
-    listId: z.string().uuid(),
-  })
-  
-  const registerMemberBodySchema = z.object({
-    item_id: z.string().uuid(),
-    name: z.string().min(1),
-    cpf: z.string().length(11).regex(/^\d+$/, 'CPF must contain only numbers'),
-  })
-
-  const { listId } = registerMemberParamsSchema.parse(request.params)
-  const { item_id, name, cpf } = registerMemberBodySchema.parse(request.body)
+export async function registerMember(
+  request: FastifyRequest<{
+    Body: RegisterMemberBody
+    Params: ListIdParams
+  }>,
+  reply: FastifyReply,
+) {
+  const { listId } = request.params
+  const { item_id, name, cpf } = request.body
 
   const registerMemberUseCase = new RegisterMemberUseCase()
 

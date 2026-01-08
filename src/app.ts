@@ -5,7 +5,6 @@ import {
   serializerCompiler,
   validatorCompiler,
   type ZodTypeProvider,
-  type FastifyPluginAsyncZod 
 } from 'fastify-type-provider-zod'
 import { fromZodError } from 'zod-validation-error'
 import { ZodError } from './libs/zod'
@@ -36,7 +35,6 @@ app.register(listRoutes)
 app.get('/', () => {
   return { status: 'ok' }
 })
-
 
 app.setErrorHandler((error: FastifyError, _request, reply) => {
   if (error.name === 'UserAlreadyExistsError') {

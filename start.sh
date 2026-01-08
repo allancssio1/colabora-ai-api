@@ -30,4 +30,13 @@ else
 fi
 
 echo "Starting application..."
-npm start
+
+# Check if NODE_ENV is set to dev for development mode
+if [ "$NODE_ENV" = "dev" ]; then
+  echo "Running in DEVELOPMENT mode with hot reload..."
+  npm run dev
+else
+  echo "Running in PRODUCTION mode..."
+  npm run build
+  npm start
+fi

@@ -6,7 +6,6 @@ export async function getUserLists(
   reply: FastifyReply,
 ) {
   const { sub } = request.user
-  console.log('🚀 ~ getUserLists ~ sub:', sub)
 
   if (!sub) {
     return reply.status(403).send({ message: 'Forbidden' })
