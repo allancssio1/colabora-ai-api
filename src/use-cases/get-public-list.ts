@@ -41,7 +41,7 @@ export class GetPublicListUseCase {
         quantity_per_portion: true,
         unit_type: true,
         member_name: true,
-        // member_cpf: false // Requirement: "não é necessário retornar member_cpf"
+        member_cpf: true,
       },
     })
 

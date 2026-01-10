@@ -17,6 +17,11 @@ export const listIdStringParamsSchema = z.object({
   listId: z.uuid(),
 })
 
+export const unregisterMemberParamsSchema = z.object({
+  listId: z.uuid(),
+  itemId: z.uuid(),
+})
+
 // Body schemas
 export const createListBodySchema = z.object({
   location: z.string(),

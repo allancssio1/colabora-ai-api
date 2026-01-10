@@ -17,6 +17,9 @@ const app = fastify().withTypeProvider<ZodTypeProvider>()
 
 app.register(fastifyCors, {
   origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
 })
 
 app.register(jwt, {

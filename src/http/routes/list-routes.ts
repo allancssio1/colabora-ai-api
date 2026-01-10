@@ -5,12 +5,14 @@ import { getPublicList } from '../controllers/lists/get-public'
 import { registerMember } from '../controllers/lists/register-member'
 import { editList } from '../controllers/lists/edit'
 import { getUserLists } from '../controllers/lists/get-user-lists'
+import { unregisterMember } from '../controllers/lists/unregister-member'
 import {
   listIdParamsSchema,
   listIdStringParamsSchema,
   createListBodySchema,
   registerMemberBodySchema,
   editListBodySchema,
+  unregisterMemberParamsSchema,
 } from '../../validations/list-schemas'
 
 export const listRoutes: FastifyPluginAsyncZod = async (app) => {
@@ -34,6 +36,16 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
       },
     },
     registerMember,
+  )
+
+  app.delete(
+    '/lists/:listId/items/:itemId/register',
+    {
+      schema: {
+        params: unregisterMemberParamsSchema,
+      },
+    },
+    unregisterMember,
   )
 
   // Protected routes
