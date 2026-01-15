@@ -13,6 +13,12 @@ export const authRoutes: FastifyPluginAsyncZod = async (app) => {
       schema: {
         body: registerBodySchema,
       },
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: '1 minute',
+        },
+      },
     },
     register,
   )
@@ -22,6 +28,12 @@ export const authRoutes: FastifyPluginAsyncZod = async (app) => {
     {
       schema: {
         body: authenticateBodySchema,
+      },
+      config: {
+        rateLimit: {
+          max: 5,
+          timeWindow: '1 minute',
+        },
       },
     },
     authenticate,

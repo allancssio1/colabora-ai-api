@@ -23,6 +23,12 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
       schema: {
         params: listIdParamsSchema,
       },
+      config: {
+        rateLimit: {
+          max: 10,
+          timeWindow: '1 minute',
+        },
+      },
     },
     getPublicList,
   )
@@ -34,6 +40,12 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
         params: listIdParamsSchema,
         body: registerMemberBodySchema,
       },
+      config: {
+        rateLimit: {
+          max: 30,
+          timeWindow: '1 minute',
+        },
+      },
     },
     registerMember,
   )
@@ -43,6 +55,12 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
     {
       schema: {
         params: unregisterMemberParamsSchema,
+      },
+      config: {
+        rateLimit: {
+          max: 30,
+          timeWindow: '1 minute',
+        },
       },
     },
     unregisterMember,
@@ -58,11 +76,28 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
         schema: {
           body: createListBodySchema,
         },
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
+        },
       },
       createList,
     )
 
-    protectedApp.get('/lists', getUserLists)
+    protectedApp.get(
+      '/lists',
+      {
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
+        },
+      },
+      getUserLists,
+    )
 
     protectedApp.put(
       '/lists/:listId',
@@ -70,6 +105,12 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
         schema: {
           params: listIdStringParamsSchema,
           body: editListBodySchema,
+        },
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
         },
       },
       editList,
