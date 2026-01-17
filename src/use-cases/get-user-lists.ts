@@ -9,12 +9,14 @@ interface GetUserListsRequest {
 export class GetUserListsUseCase {
   async execute({ userId }: GetUserListsRequest) {
     // Get all lists for user
-    const userLists = await db.select({
+    const userLists = await db
+      .select({
         id: lists.id,
         location: lists.location,
         event_date: lists.event_date,
         status: lists.status,
-    }).from(lists)
+      })
+      .from(lists)
       .where(eq(lists.user_id, userId))
       .orderBy(desc(lists.created_at))
 
