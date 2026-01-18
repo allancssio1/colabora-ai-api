@@ -170,8 +170,25 @@ export class EditListUseCase {
                   (p) => p.member_name !== null,
                 )
 
+                if (hasMembersRegistered) {
+                  // Frações com membros não podem ter quantity_per_portion ou unit_type alterados
+                  if (perPortionChanged) {
+                    throw new AppError(
+                      `O item "${item.item_name}" possui frações com membros registrados. Não é possível alterar a quantidade por porção.`,
+                      400,
+                    )
+                  }
+
+                  if (unitChanged) {
+                    throw new AppError(
+                      `O item "${item.item_name}" possui frações com membros registrados. Não é possível alterar a unidade de medida.`,
+                      400,
+                    )
+                  }
+                }
+
                 if (hasMembersRegistered && quantityChanged) {
-                  // Validar se pode fazer a mudança
+                  // Validar se pode fazer a mudança de quantidade
                   const takenParcels = existingParcels.filter(
                     (p) => p.member_name !== null,
                   )
@@ -187,37 +204,26 @@ export class EditListUseCase {
                   }
 
                   // Pode adicionar ou remover apenas parcelas livres
+                  // quantity_per_portion e unit_type não mudam (validação anterior garante)
                   if (newTotal > currentTotal) {
-                    // Adicionar parcelas
+                    // Adicionar novas parcelas livres
                     const toAdd = newTotal - currentTotal
+                    const originalQuantityPerPortion =
+                      existingParcels[0].quantity_per_portion
+                    const originalUnitType = existingParcels[0].unit_type
+
                     const itemsToInsert = Array.from({ length: toAdd }).map(
                       (_, index) => ({
                         list_id: listId,
                         item_name: item.item_name,
-                        quantity_per_portion:
-                          item.quantity_per_portion.toString(),
-                        unit_type: item.unit_type,
+                        quantity_per_portion: originalQuantityPerPortion,
+                        unit_type: originalUnitType,
                         position: currentTotal + index,
                       }),
                     )
                     await tx.insert(items).values(itemsToInsert)
-
-                    // Atualizar quantity_per_portion e unit_type dos existentes
-                    await tx
-                      .update(items)
-                      .set({
-                        quantity_per_portion:
-                          item.quantity_per_portion.toString(),
-                        unit_type: item.unit_type,
-                      })
-                      .where(
-                        and(
-                          eq(items.list_id, listId),
-                          eq(items.item_name, item.item_name),
-                        ),
-                      )
                   } else if (newTotal < currentTotal) {
-                    // Remover parcelas livres
+                    // Remover apenas parcelas livres
                     const toRemove = currentTotal - newTotal
                     const idsToDelete = freeParcels
                       .slice(0, toRemove)
@@ -226,38 +232,9 @@ export class EditListUseCase {
                     for (const id of idsToDelete) {
                       await tx.delete(items).where(eq(items.id, id))
                     }
-
-                    // Atualizar quantity_per_portion e unit_type dos restantes
-                    await tx
-                      .update(items)
-                      .set({
-                        quantity_per_portion:
-                          item.quantity_per_portion.toString(),
-                        unit_type: item.unit_type,
-                      })
-                      .where(
-                        and(
-                          eq(items.list_id, listId),
-                          eq(items.item_name, item.item_name),
-                        ),
-                      )
-                  } else {
-                    // Apenas atualizar quantity_per_portion ou unit_type
-                    await tx
-                      .update(items)
-                      .set({
-                        quantity_per_portion:
-                          item.quantity_per_portion.toString(),
-                        unit_type: item.unit_type,
-                      })
-                      .where(
-                        and(
-                          eq(items.list_id, listId),
-                          eq(items.item_name, item.item_name),
-                        ),
-                      )
                   }
-                } else {
+                  // Se newTotal === currentTotal, não há nada a fazer (quantity_per_portion e unit_type são bloqueados)
+                } else if (!hasMembersRegistered) {
                   // Sem membros - pode fazer qualquer mudança
                   // Deletar todas as parcelas antigas
                   await tx
