@@ -11,13 +11,14 @@ export async function createList(
   // Authenticated user
   const userId = request.user.sub
 
-  const { location, event_date, items } = request.body
+  const { location, description, event_date, items } = request.body
 
   const createListUseCase = new CreateListUseCase()
 
   const { list } = await createListUseCase.execute({
     userId,
     location,
+    description,
     event_date,
     items,
   })

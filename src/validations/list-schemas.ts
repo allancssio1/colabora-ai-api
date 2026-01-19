@@ -25,6 +25,7 @@ export const unregisterMemberParamsSchema = z.object({
 // Body schemas
 export const createListBodySchema = z.object({
   location: z.string(),
+  description: z.string().optional(),
   event_date: z.coerce.date(),
   items: z.array(listItemSchema),
 })
@@ -36,8 +37,7 @@ export const registerMemberBodySchema = z.object({
 })
 
 export const editListBodySchema = z.object({
-  mode: z.enum(['continue', 'reset']),
-  location: z.string().optional(),
+  description: z.string().optional(),
   event_date: z.coerce.date().optional(),
   items: z.array(listItemSchema).optional(),
 })

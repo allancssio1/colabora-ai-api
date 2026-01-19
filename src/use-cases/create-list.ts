@@ -4,6 +4,7 @@ import { items, lists } from '../db/schema'
 interface CreateListRequest {
   userId: string
   location: string
+  description?: string
   event_date: Date
   items: {
     item_name: string
@@ -14,12 +15,13 @@ interface CreateListRequest {
 }
 
 export class CreateListUseCase {
-  async execute({ userId, location, event_date, items: inputItems }: CreateListRequest) {
+  async execute({ userId, location, description, event_date, items: inputItems }: CreateListRequest) {
     const result = await db.transaction(async (tx) => {
       const [newList] = await tx
         .insert(lists)
         .values({
           location,
+          description,
           event_date,
           user_id: userId,
           status: 'active',

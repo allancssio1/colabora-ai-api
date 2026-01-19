@@ -13,15 +13,14 @@ export async function editList(
   const userId = request.user.sub
 
   const { listId } = request.params
-  const { mode, location, event_date, items } = request.body
+  const { description, event_date, items } = request.body
 
   const editListUseCase = new EditListUseCase()
 
   const result = await editListUseCase.execute({
     listId,
     userId,
-    mode,
-    location,
+    description,
     event_date,
     items,
   })

@@ -29,6 +29,7 @@ export const users = pgTable('users', {
 export const lists = pgTable('lists', {
   id: uuid('id').primaryKey().defaultRandom(),
   location: text('location').notNull(), // 'local' is a reserved keyword in some contexts, using location as per schema requirements mapping 'local' -> location
+  description: text('description'),
   event_date: timestamp('event_date').notNull(),
   user_id: uuid('user_id')
     .notNull()
