@@ -21,8 +21,12 @@ export class RegisterMemberUseCase {
       throw new AppError('List not found', 404)
     }
 
+    if (list.status === 'archived') {
+      throw new AppError('Esta lista esta inativa. Nao e possivel se registrar.', 400)
+    }
+
     if (new Date() >= list.event_date) {
-      throw new AppError('Lista finalizada. Não é possível se registrar.', 400)
+      throw new AppError('Lista finalizada. Nao e possivel se registrar.', 400)
     }
 
     // 2. Check item valid and available

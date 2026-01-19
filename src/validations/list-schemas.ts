@@ -41,3 +41,7 @@ export const editListBodySchema = z.object({
   event_date: z.coerce.date().optional(),
   items: z.array(listItemSchema).optional(),
 })
+
+export const createListFromTemplateBodySchema = z.object({
+  template_list_id: z.uuid(),
+})

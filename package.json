@@ -6,9 +6,9 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "generate": "drizzle-kit generate:pg",
+    "generate": "drizzle-kit generate",
     "migrate": "tsx src/db/migrate.ts",
-    "push": "drizzle-kit push:pg"
+    "push": "drizzle-kit push"
   },
   "dependencies": {
     "@fastify/cors": "11.2.0",
@@ -28,7 +28,7 @@
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "25.0.3",
     "@types/pg": "^8.11.10",
-    "drizzle-kit": "0.18.1",
+    "drizzle-kit": "^0.30.4",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2"
   }

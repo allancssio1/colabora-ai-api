@@ -13,7 +13,11 @@ import {
   registerMemberBodySchema,
   editListBodySchema,
   unregisterMemberParamsSchema,
+  createListFromTemplateBodySchema,
 } from '../../validations/list-schemas'
+import { createListFromTemplate } from '../controllers/lists/create-from-template'
+import { toggleListStatus } from '../controllers/lists/toggle-status'
+import { deleteList } from '../controllers/lists/delete'
 
 export const listRoutes: FastifyPluginAsyncZod = async (app) => {
   // Public routes
@@ -86,6 +90,22 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
       createList,
     )
 
+    protectedApp.post(
+      '/lists/from-template',
+      {
+        schema: {
+          body: createListFromTemplateBodySchema,
+        },
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
+        },
+      },
+      createListFromTemplate,
+    )
+
     protectedApp.get(
       '/lists',
       {
@@ -114,6 +134,38 @@ export const listRoutes: FastifyPluginAsyncZod = async (app) => {
         },
       },
       editList,
+    )
+
+    protectedApp.patch(
+      '/lists/:listId/status',
+      {
+        schema: {
+          params: listIdStringParamsSchema,
+        },
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
+        },
+      },
+      toggleListStatus,
+    )
+
+    protectedApp.delete(
+      '/lists/:listId',
+      {
+        schema: {
+          params: listIdStringParamsSchema,
+        },
+        config: {
+          rateLimit: {
+            max: 10,
+            timeWindow: '1 minute',
+          },
+        },
+      },
+      deleteList,
     )
   })
 }
