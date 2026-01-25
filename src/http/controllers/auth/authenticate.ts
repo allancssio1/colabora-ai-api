@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { AuthenticateUserUseCase } from '../../../use-cases/authenticate-user'
-import { AuthenticateBody } from '../../../types/user-types'
+import { AuthenticateUserUseCase } from '@/use-cases/authenticate-user'
+import { AuthenticateBody } from '@/types/user-types'
 
 export async function authenticate(
   request: FastifyRequest<{

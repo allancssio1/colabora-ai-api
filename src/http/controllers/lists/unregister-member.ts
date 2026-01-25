@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { UnregisterMemberUseCase } from '../../../use-cases/unregister-member'
-import { ListIdParams } from '../../../types/list-types'
+import { UnregisterMemberUseCase } from '@/use-cases/unregister-member'
+import { ListIdParams } from '@/types/list-types'
 
 interface UnregisterMemberParams extends ListIdParams {
   itemId: string

@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { RegisterUserUseCase } from '../../../use-cases/register-user'
-import { RegisterBody } from '../../../types/user-types'
+import { RegisterUserUseCase } from '@/use-cases/register-user'
+import { RegisterBody } from '@/types/user-types'
 
 export async function register(
   request: FastifyRequest<{
@@ -8,7 +8,7 @@ export async function register(
   }>,
   reply: FastifyReply,
 ) {
-  const { name, email, password } = request.body
+  const { name, email, password, cpf } = request.body
 
   const registerUserUseCase = new RegisterUserUseCase()
 
@@ -16,6 +16,7 @@ export async function register(
     name,
     email,
     password,
+    cpf,
   })
 
   return reply.status(201).send({ user })

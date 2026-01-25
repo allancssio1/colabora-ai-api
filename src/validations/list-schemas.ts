@@ -1,4 +1,4 @@
-import { z } from '../libs/zod'
+import { z } from '@/libs/zod'
 
 // List item schema
 const listItemSchema = z.object({

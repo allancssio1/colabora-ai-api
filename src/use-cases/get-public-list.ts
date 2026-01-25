@@ -1,7 +1,7 @@
 import { eq, asc, and } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { lists, items } from '../db/schema'
-import { AppError } from '../errors/app-error'
+import { db } from '@/db/connection'
+import { lists, items } from '@/db/schema'
+import { AppError } from '@/errors/app-error'
 
 interface GetPublicListRequest {
   listId: string

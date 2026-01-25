@@ -1,7 +1,7 @@
-import { db } from '../db/connection'
-import { lists, items } from '../db/schema'
+import { db } from '@/db/connection'
+import { lists, items } from '@/db/schema'
 import { eq, and } from 'drizzle-orm'
-import { AppError } from '../errors/app-error'
+import { AppError } from '@/errors/app-error'
 
 interface EditListRequest {
   listId: string

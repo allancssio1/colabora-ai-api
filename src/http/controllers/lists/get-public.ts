@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { GetPublicListUseCase } from '../../../use-cases/get-public-list'
-import { ListIdParams } from '../../../types/list-types'
+import { GetPublicListUseCase } from '@/use-cases/get-public-list'
+import { ListIdParams } from '@/types/list-types'
 
 export async function getPublicList(
   request: FastifyRequest<{

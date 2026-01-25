@@ -1,8 +1,8 @@
 import { compare } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { auth, users } from '../db/schema'
-import { AppError } from '../errors/app-error'
+import { db } from '@/db/connection'
+import { auth, users } from '@/db/schema'
+import { AppError } from '@/errors/app-error'
 
 interface AuthenticateUserRequest {
   email: string

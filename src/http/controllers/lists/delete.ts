@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { DeleteListUseCase } from '../../../use-cases/delete-list'
+import { DeleteListUseCase } from '@/use-cases/delete-list'
 
 interface DeleteListParams {
   listId: string

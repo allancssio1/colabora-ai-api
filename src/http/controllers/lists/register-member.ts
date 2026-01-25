@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { RegisterMemberUseCase } from '../../../use-cases/register-member'
-import { ListIdParams, RegisterMemberBody } from '../../../types/list-types'
+import { RegisterMemberUseCase } from '@/use-cases/register-member'
+import { ListIdParams, RegisterMemberBody } from '@/types/list-types'
 
 export async function registerMember(
   request: FastifyRequest<{

@@ -1,6 +1,6 @@
 import { and, eq } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { items, lists } from '../db/schema'
+import { db } from '@/db/connection'
+import { items, lists } from '@/db/schema'
 
 interface CreateListFromTemplateRequest {
   userId: string

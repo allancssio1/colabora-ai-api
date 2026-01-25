@@ -1,11 +1,11 @@
 import type { FastifyPluginAsyncZod } from 'fastify-type-provider-zod'
-import { verifyJwt } from '../middlewares/verify-jwt'
-import { createList } from '../controllers/lists/create'
-import { getPublicList } from '../controllers/lists/get-public'
-import { registerMember } from '../controllers/lists/register-member'
-import { editList } from '../controllers/lists/edit'
-import { getUserLists } from '../controllers/lists/get-user-lists'
-import { unregisterMember } from '../controllers/lists/unregister-member'
+import { verifyJwt } from '@/http/middlewares/verify-jwt'
+import { createList } from '@/http/controllers/lists/create'
+import { getPublicList } from '@/http/controllers/lists/get-public'
+import { registerMember } from '@/http/controllers/lists/register-member'
+import { editList } from '@/http/controllers/lists/edit'
+import { getUserLists } from '@/http/controllers/lists/get-user-lists'
+import { unregisterMember } from '@/http/controllers/lists/unregister-member'
 import {
   listIdParamsSchema,
   listIdStringParamsSchema,
@@ -14,10 +14,10 @@ import {
   editListBodySchema,
   unregisterMemberParamsSchema,
   createListFromTemplateBodySchema,
-} from '../../validations/list-schemas'
-import { createListFromTemplate } from '../controllers/lists/create-from-template'
-import { toggleListStatus } from '../controllers/lists/toggle-status'
-import { deleteList } from '../controllers/lists/delete'
+} from '@/validations/list-schemas'
+import { createListFromTemplate } from '@/http/controllers/lists/create-from-template'
+import { toggleListStatus } from '@/http/controllers/lists/toggle-status'
+import { deleteList } from '@/http/controllers/lists/delete'
 
 export const listRoutes: FastifyPluginAsyncZod = async (app) => {
   // Public routes

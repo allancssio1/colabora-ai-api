@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { ToggleListStatusUseCase } from '../../../use-cases/toggle-list-status'
+import { ToggleListStatusUseCase } from '@/use-cases/toggle-list-status'
 
 interface ToggleStatusParams {
   listId: string

@@ -1,7 +1,7 @@
 import { eq, and, isNull } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { lists, items } from '../db/schema'
-import { AppError } from '../errors/app-error'
+import { db } from '@/db/connection'
+import { lists, items } from '@/db/schema'
+import { AppError } from '@/errors/app-error'
 
 interface RegisterMemberRequest {
   itemId: string

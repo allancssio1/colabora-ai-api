@@ -14,6 +14,7 @@ import { AppError } from './errors/app-error'
 import { env } from './libs/env'
 import { authRoutes } from './http/routes/auth-routes'
 import { listRoutes } from './http/routes/list-routes'
+import { subscriptionRoutes } from './http/routes/subscription-routes'
 
 const app = fastify({
   trustProxy: true,
@@ -64,6 +65,7 @@ app.setValidatorCompiler(validatorCompiler)
 
 app.register(authRoutes)
 app.register(listRoutes)
+app.register(subscriptionRoutes)
 
 app.get('/', () => {
   return { status: 'ok' }

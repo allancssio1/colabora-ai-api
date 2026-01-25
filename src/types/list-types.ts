@@ -1,11 +1,11 @@
-import { z } from '../libs/zod'
+import { z } from '@/libs/zod'
 import {
   listIdParamsSchema,
   listIdStringParamsSchema,
   createListBodySchema,
   registerMemberBodySchema,
   editListBodySchema,
-} from '../validations/list-schemas'
+} from '@/validations/list-schemas'
 
 // Tipos inferidos dos schemas de params
 export type ListIdParams = z.infer<typeof listIdParamsSchema>

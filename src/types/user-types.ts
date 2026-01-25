@@ -1,8 +1,8 @@
-import { z } from '../libs/zod'
+import { z } from '@/libs/zod'
 import {
   registerBodySchema,
   authenticateBodySchema,
-} from '../validations/user-schemas'
+} from '@/validations/user-schemas'
 
 // Tipos inferidos dos schemas
 export type RegisterBody = z.infer<typeof registerBodySchema>

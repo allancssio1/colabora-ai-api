@@ -1,5 +1,5 @@
-import { db } from '../db/connection'
-import { lists, items } from '../db/schema'
+import { db } from '@/db/connection'
+import { lists, items } from '@/db/schema'
 import { eq, desc, asc, sql } from 'drizzle-orm'
 
 interface GetUserListsRequest {

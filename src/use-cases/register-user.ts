@@ -1,17 +1,18 @@
 import { hash } from 'bcryptjs'
 import { eq } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { auth, users } from '../db/schema'
-import { AppError } from '../errors/app-error'
+import { db } from '@/db/connection'
+import { auth, users } from '@/db/schema'
+import { AppError } from '@/errors/app-error'
 
 interface RegisterUserRequest {
   name: string
   email: string
   password: string
+  cpf: string
 }
 
 export class RegisterUserUseCase {
-  async execute({ name, email, password }: RegisterUserRequest) {
+  async execute({ name, email, password, cpf }: RegisterUserRequest) {
     const existingUser = await db.select().from(auth).where(eq(auth.email, email))
 
     if (existingUser.length > 0) {
@@ -34,6 +35,7 @@ export class RegisterUserUseCase {
         .insert(users)
         .values({
           name,
+          cpf,
           auth_id: newAuth.id,
         })
         .returning()

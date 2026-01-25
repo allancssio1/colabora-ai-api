@@ -1,5 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { GetUserListsUseCase } from '../../../use-cases/get-user-lists'
+import { GetUserListsUseCase } from '@/use-cases/get-user-lists'
 
 export async function getUserLists(
   request: FastifyRequest,

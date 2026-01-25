@@ -1,7 +1,7 @@
 import { eq, and } from 'drizzle-orm'
-import { db } from '../db/connection'
-import { lists } from '../db/schema'
-import { AppError } from '../errors/app-error'
+import { db } from '@/db/connection'
+import { lists } from '@/db/schema'
+import { AppError } from '@/errors/app-error'
 
 interface ToggleListStatusRequest {
   userId: string

@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { EditListUseCase } from '../../../use-cases/edit-list'
-import { EditListBody, ListIdParams } from '../../../types/list-types'
+import { EditListUseCase } from '@/use-cases/edit-list'
+import { EditListBody, ListIdParams } from '@/types/list-types'
 
 export async function editList(
   request: FastifyRequest<{
