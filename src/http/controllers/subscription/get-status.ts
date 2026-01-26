@@ -1,7 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { GetSubscriptionStatusUseCase } from '@/use-cases/get-subscription-status'
 
-export async function getSubscriptionStatus(request: FastifyRequest, reply: FastifyReply) {
+export async function getSubscriptionStatus(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const userId = request.user.sub
 
   const getStatus = new GetSubscriptionStatusUseCase()

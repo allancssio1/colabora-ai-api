@@ -15,7 +15,7 @@ interface WebhookBody {
 
 export async function handleWebhook(
   request: FastifyRequest<{ Querystring: WebhookQuery; Body: WebhookBody }>,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const { webhookSecret } = request.query
 

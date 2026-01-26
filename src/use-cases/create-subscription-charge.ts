@@ -20,7 +20,7 @@ interface CreateSubscriptionChargeOutput {
     brCode: string
     brCodeBase64: string
     amount: number
-    expiresAt: Date
+    expiresAt: string
   }
 }
 
@@ -44,7 +44,7 @@ export class CreateSubscriptionChargeUseCase {
     // Verificar se já tem assinatura ativa
     if (user.subscription_status === 'active' && user.subscription_expires_at) {
       const now = new Date()
-      if (user.subscription_expires_at > now) {
+      if (user?.subscription_expires_at > now) {
         throw new AppError(
           'Você já possui uma assinatura ativa. Aguarde ela expirar para renovar ou mudar de plano',
           400,
@@ -65,25 +65,18 @@ export class CreateSubscriptionChargeUseCase {
       })
       .returning()
 
-    // Criar cobrança no Abacate Pay
+    // Criar cobrança PIX usando o SDK
     const abacatePay = new AbacatePayService()
 
     const pixCharge = await abacatePay.createPixCharge({
       amount: planData.price,
       description: `Assinatura ${planData.name} - Colabora-AI`,
       expiresIn: 3600, // 1 hora para pagar
-      customer: user.cpf
-        ? {
-            name: user.name,
-            email: user.auth.email,
-            cellphone: '', // Opcional, não temos telefone
-            taxId: user.cpf,
-          }
-        : undefined,
-      metadata: {
-        subscriptionId: subscription.id,
-        userId,
-        plan,
+      customer: {
+        name: user.name,
+        email: user.auth.email,
+        taxId: user.cpf ?? '04499730341',
+        cellphone: '85989353295',
       },
     })
 
@@ -108,7 +101,7 @@ export class CreateSubscriptionChargeUseCase {
         brCode: pixCharge.brCode,
         brCodeBase64: pixCharge.brCodeBase64,
         amount: planData.price,
-        expiresAt: new Date(pixCharge.expiresAt),
+        expiresAt: pixCharge.expiresAt,
       },
     }
   }

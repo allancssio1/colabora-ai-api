@@ -13,7 +13,10 @@ declare module 'fastify' {
   }
 }
 
-export async function verifySubscription(request: FastifyRequest, reply: FastifyReply) {
+export async function verifySubscription(
+  request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const userId = request.user.sub
 
   const checkValidity = new CheckSubscriptionValidityUseCase()

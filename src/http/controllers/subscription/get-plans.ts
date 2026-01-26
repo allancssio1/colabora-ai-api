@@ -1,7 +1,10 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
 import { SUBSCRIPTION_PLANS, formatPrice } from '@/constants/subscription-plans'
 
-export async function getSubscriptionPlans(_request: FastifyRequest, reply: FastifyReply) {
+export async function getSubscriptionPlans(
+  _request: FastifyRequest,
+  reply: FastifyReply,
+) {
   const plans = Object.entries(SUBSCRIPTION_PLANS).map(([id, plan]) => ({
     id,
     name: plan.name,

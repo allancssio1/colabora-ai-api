@@ -8,7 +8,7 @@ interface CreateCheckoutBody {
 
 export async function createCheckout(
   request: FastifyRequest<{ Body: CreateCheckoutBody }>,
-  reply: FastifyReply
+  reply: FastifyReply,
 ) {
   const userId = request.user.sub
   const { plan } = request.body

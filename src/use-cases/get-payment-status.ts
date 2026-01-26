@@ -37,9 +37,9 @@ export class GetPaymentStatusUseCase {
       }
     }
 
-    // Verificar status no Abacate Pay
+    // Verificar status no Abacate Pay usando SDK
     const abacatePay = new AbacatePayService()
-    const chargeStatus = await abacatePay.getChargeStatus(
+    const chargeStatus = await abacatePay.checkPixStatus(
       pixTransaction.abacate_pay_id,
     )
 
