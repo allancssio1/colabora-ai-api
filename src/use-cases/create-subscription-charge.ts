@@ -36,7 +36,6 @@ export class CreateSubscriptionChargeUseCase {
         auth: true,
       },
     })
-    console.log('🚀 ~ CreateSubscriptionChargeUseCase ~ execute ~ user:', user)
 
     if (!user) {
       throw new AppError('Usuário não encontrado', 404)
