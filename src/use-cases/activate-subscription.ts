@@ -1,7 +1,11 @@
 import { db } from '@/db/connection'
-import { users, subscriptions } from '@/db/schema'
-import { eq } from 'drizzle-orm'
+import { users, subscriptions, lists } from '@/db/schema'
+import { eq, and } from 'drizzle-orm'
 import { AppError } from '@/errors/app-error'
+import {
+  SUBSCRIPTION_PLANS,
+  type SubscriptionPlanType,
+} from '@/constants/subscription-plans'
 
 interface ActivateSubscriptionInput {
   subscriptionId: string
@@ -33,6 +37,37 @@ export class ActivateSubscriptionUseCase {
     const now = new Date()
     const expiresAt = new Date(now)
     expiresAt.setDate(expiresAt.getDate() + 30) // 30 dias
+
+    // Buscar usuario para verificar plano atual
+    const user = await db.query.users.findFirst({
+      where: eq(users.id, subscription.user_id),
+    })
+
+    if (!user) {
+      throw new AppError('Usuário não encontrado', 404)
+    }
+
+    // Detectar downgrade e arquivar todas as listas
+    const oldPlan = user.subscription_plan as SubscriptionPlanType | null
+    const newPlan = subscription.plan as SubscriptionPlanType
+
+    if (oldPlan && SUBSCRIPTION_PLANS[oldPlan] && SUBSCRIPTION_PLANS[newPlan]) {
+      const oldMaxLists = SUBSCRIPTION_PLANS[oldPlan].maxLists
+      const newMaxLists = SUBSCRIPTION_PLANS[newPlan].maxLists
+
+      if (newMaxLists < oldMaxLists) {
+        // Downgrade detectado - arquivar TODAS as listas ativas
+        await db
+          .update(lists)
+          .set({ status: 'archived', updated_at: now })
+          .where(
+            and(
+              eq(lists.user_id, user.id),
+              eq(lists.status, 'active'),
+            ),
+          )
+      }
+    }
 
     // Atualizar subscription
     await db
