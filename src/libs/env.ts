@@ -11,11 +11,11 @@ export const envSchema = z.object({
   ABACATE_PAY_WEBHOOK_SECRET: z.string().min(1),
   ABACATE_PAY_API_URL: z.url().optional(),
   // Email (SMTP)
-  SMTP_HOST: z.string().optional(),
-  SMTP_PORT: z.coerce.number().optional(),
-  SMTP_USER: z.string().optional(),
-  SMTP_PASS: z.string().optional(),
-  SMTP_FROM: z.email().optional(),
+  // SMTP_HOST: z.string().optional(),
+  // SMTP_PORT: z.coerce.number().optional(),
+  // SMTP_USER: z.string().optional(),
+  // SMTP_PASS: z.string().optional(),
+  // SMTP_FROM: z.email().optional(),
 })
 
 export const env = envSchema.parse(process.env)
