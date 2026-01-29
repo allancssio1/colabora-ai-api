@@ -10,8 +10,6 @@ export async function authenticate(
 ) {
   const { email, password } = request.body
 
-  console.log('🚀 ~ authenticate ~ email, password:', email, password)
-
   const authenticateUserUseCase = new AuthenticateUserUseCase()
 
   const { user } = await authenticateUserUseCase.execute({
