@@ -1,7 +1,5 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { CreateListFromTemplateUseCase } from '@/use-cases/create-list-from-template'
-import { CheckListCreationAllowedUseCase } from '@/use-cases/check-list-creation-allowed'
-import { AppError } from '@/errors/app-error'
 
 interface CreateListFromTemplateBody {
   template_list_id: string
@@ -16,14 +14,7 @@ export async function createListFromTemplate(
   const userId = request.user.sub
   const { template_list_id } = request.body
 
-  // Verificar se pode criar lista (limite do plano)
-  const checkLimit = new CheckListCreationAllowedUseCase()
-  const { allowed, reason } = await checkLimit.execute({ userId })
-
-  if (!allowed) {
-    throw new AppError(reason || 'Limite de listas atingido', 403)
-  }
-
+  // Verificação de limite agora está dentro do use case (evita race condition)
   const useCase = new CreateListFromTemplateUseCase()
 
   const { list } = await useCase.execute({

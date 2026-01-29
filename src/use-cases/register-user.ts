@@ -9,10 +9,11 @@ interface RegisterUserRequest {
   email: string
   password: string
   cpf: string
+  phone: string
 }
 
 export class RegisterUserUseCase {
-  async execute({ name, email, password, cpf }: RegisterUserRequest) {
+  async execute({ name, email, password, cpf, phone }: RegisterUserRequest) {
     const existingUser = await db.select().from(auth).where(eq(auth.email, email))
 
     if (existingUser.length > 0) {
@@ -36,6 +37,7 @@ export class RegisterUserUseCase {
         .values({
           name,
           cpf,
+          phone,
           auth_id: newAuth.id,
         })
         .returning()

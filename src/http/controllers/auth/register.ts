@@ -8,7 +8,7 @@ export async function register(
   }>,
   reply: FastifyReply,
 ) {
-  const { name, email, password, cpf } = request.body
+  const { name, email, password, cpf, phone } = request.body
 
   const registerUserUseCase = new RegisterUserUseCase()
 
@@ -17,6 +17,7 @@ export async function register(
     email,
     password,
     cpf,
+    phone,
   })
 
   return reply.status(201).send({ user })

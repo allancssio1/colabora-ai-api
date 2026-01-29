@@ -36,6 +36,7 @@ export class CreateSubscriptionChargeUseCase {
         auth: true,
       },
     })
+    console.log('🚀 ~ CreateSubscriptionChargeUseCase ~ execute ~ user:', user)
 
     if (!user) {
       throw new AppError('Usuário não encontrado', 404)
@@ -68,6 +69,14 @@ export class CreateSubscriptionChargeUseCase {
     // Criar cobrança PIX usando o SDK
     const abacatePay = new AbacatePayService()
 
+    // Validar dados obrigatórios para o PIX
+    if (!user.cpf || !user.phone) {
+      throw new AppError(
+        'CPF e telefone são obrigatórios para realizar pagamento. Por favor, atualize seu cadastro.',
+        400,
+      )
+    }
+
     const pixCharge = await abacatePay.createPixCharge({
       amount: planData.price,
       description: `Assinatura ${planData.name} - Colabora-AI`,
@@ -75,8 +84,8 @@ export class CreateSubscriptionChargeUseCase {
       customer: {
         name: user.name,
         email: user.auth.email,
-        taxId: user.cpf ?? '04499730341',
-        cellphone: '85989353295',
+        taxId: user.cpf,
+        cellphone: user.phone,
       },
     })
 
