@@ -7,7 +7,7 @@ echo "Waiting for database to be ready..."
 # Using nc (netcat) which is usually available in Alpine
 # Retry up to 30 times with 1 second delay
 i=0
-while ! nc -z db 5432; do   
+while ! nc -z "$DB_HOST" "$DB_PORT"; do   
   i=$((i+1))
   if [ $i -ge 60 ]; then
      echo "Database connection timed out."
