@@ -1,11 +1,12 @@
 #!/bin/sh
 
-# Wait for database to be ready
-echo "Waiting for database to be ready..."
+# Extract host and port from DATABASE_URL
+DB_HOST=$(echo "$DATABASE_URL" | sed -e 's|.*@\([^:/]*\).*|\1|')
+DB_PORT=$(echo "$DATABASE_URL" | sed -e 's|.*:\([0-9]*\)/.*|\1|')
+DB_PORT=${DB_PORT:-5432}
 
-# Loop until we can connect to the database port (5432) on host 'db'
-# Using nc (netcat) which is usually available in Alpine
-# Retry up to 30 times with 1 second delay
+echo "Waiting for database at $DB_HOST:$DB_PORT..."
+
 i=0
 while ! nc -z "$DB_HOST" "$DB_PORT"; do   
   i=$((i+1))
